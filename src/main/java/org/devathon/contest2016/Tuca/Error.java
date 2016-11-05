@@ -12,4 +12,11 @@ public class Error {
         this.error = error;
     }
 
+//-----------------------------------------------
+
+    @Override
+    public String toString(){
+        return "§7p:§3" + page + "§7, l:§2" + line + ", e:§4 " + error;
+    }
+
 }

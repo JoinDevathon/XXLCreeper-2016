@@ -37,8 +37,8 @@ public enum Instructions {
     WHILENOT    (InstructionType.LOGIC),
     ELIHW       (InstructionType.LOGIC),
 
-    IS_BLOCK(InstructionType.BOOL),
-    IS_STORAGE_FULL(InstructionType.BOOL),
+    IS_B(InstructionType.BOOL),
+    IS_SF(InstructionType.BOOL),
 
     NULL(InstructionType.NULL);
 

@@ -6,7 +6,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
 import org.devathon.contest2016.Tuca.IOUtils;
 import org.devathon.contest2016.Tuca.Instructions;
 
@@ -37,14 +36,12 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
                     } else if(args[1].equalsIgnoreCase("new")){
                         if(args.length > 2){
                             if(!IOUtils.getProgramExists((Player)sender, args[2])){
-                                ItemStack stack = new ItemStack(Material.BOOK_AND_QUILL);
-                                BookMeta meta = (BookMeta) stack.getItemMeta();
-                                meta.setDisplayName("§5[Turtle] §3" + args[1]);
-                                stack.setItemMeta(meta);
-
+                                ItemStack stack = new ItemStack(Material.BOOK_AND_QUILL, 1);
                                 ((Player)sender).getInventory().addItem(stack);
+
+                                sendTurtleMessage(sender, "§dDue to issues with the current version of spigot, I'm note able to provide you with fancy books! §7(Info: /turtle bookBug)");
                                 sendTurtleMessage(sender, "§aHave fun programming!");
-                                sendCommand(sender, new String[]{"i", "instructions"}, "Shows you the syntax you can program the turtle programs", "");
+                                sendCommand(sender, new String[]{"i", "instructions"}, "Shows you the syntax of Tuca, the turtle language", "");
                             } else {
                                 sendTurtleMessage(sender, "§cProgram already exists!");
                             }
@@ -85,26 +82,62 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
                             sendTurtleMessage(sender, "§cName missing!");
                             sendCommand(sender, new String[]{"p", "program"}, "Gives you a copy of you program to share with friends", "clone", "name");
                         }
+                    } else if(args[1].equalsIgnoreCase("compile")){
+                        if(args.length > 2){
+                            if(!IOUtils.getProgramExists((Player)sender, args[2])){
+                                ItemStack stack = ((Player)sender).getInventory().getItemInMainHand();
+                                if(stack != null){
+                                    if(stack.getType() == Material.BOOK_AND_QUILL || stack.getType() == Material.WRITTEN_BOOK){
+                                        org.devathon.contest2016.Tuca.Compiler compiler = new org.devathon.contest2016.Tuca.Compiler(stack, args[2], (Player)sender);
+                                        compiler.compile();
+
+                                        if(compiler.hasErrors()){
+                                            sendTurtleMessage(sender, "§There are Errors in your code:");
+                                            for(org.devathon.contest2016.Tuca.Error error : compiler.getErrors()) sender.sendMessage(error.toString());
+                                        } else {
+                                            compiler.save();
+                                            ((Player)sender).getInventory().getItemInMainHand().setType(Material.AIR);
+                                        }
+                                    } else {
+                                        sendTurtleMessage(sender, "§cYou must have a book and quill or signed book in your main hand!");
+                                    }
+                                } else {
+                                    sendTurtleMessage(sender, "§cYou must have a book and quill or signed book in your main hand!");
+                                }
+                            } else {
+                                sendTurtleMessage(sender, "§cProgram does already exist!");
+                            }
+                        } else {
+                            sendTurtleMessage(sender, "§cName missing!");
+                            sendCommand(sender, new String[]{"p", "program"}, "Compiles the Code in book in your hand", "compile", "name");
+                        }
                     } else {
                         sendTurtleMessage(sender, "§cInvalid argument specified!");
                         sendCommand(sender, new String[]{"p", "program"}, "Shows you a list of all your programs", "list");
-                        sendCommand(sender, new String[]{"p", "program"}, "Gives you a book for a new program", "new", "name");
+                        sendCommand(sender, new String[]{"p", "program"}, "Gives you a book for a new program", "new");
                         sendCommand(sender, new String[]{"p", "program"}, "Allows you to edit an existing program", "edit", "name");
                         sendCommand(sender, new String[]{"p", "program"}, "Deletes an existing program", "delete", "name");
                         sendCommand(sender, new String[]{"p", "program"}, "Gives you a copy of you program to share with friends", "clone", "name");
+                        sendCommand(sender, new String[]{"p", "program"}, "Compiles the Code in book in your hand", "compile", "name");
                     }
                 } else {
                     sendTurtleMessage(sender, "§cNo argument specified!");
                     sendCommand(sender, new String[]{"p", "program"}, "Shows you a list of all your programs", "list");
-                    sendCommand(sender, new String[]{"p", "program"}, "Gives you a book for a new program", "new", "name");
+                    sendCommand(sender, new String[]{"p", "program"}, "Gives you a book for a new program", "new");
                     sendCommand(sender, new String[]{"p", "program"}, "Allows you to edit an existing program", "edit", "name");
                     sendCommand(sender, new String[]{"p", "program"}, "Deletes an existing program", "delete", "name");
                     sendCommand(sender, new String[]{"p", "program"}, "Gives you a copy of you program to share with friends", "clone", "name");
+                    sendCommand(sender, new String[]{"p", "program"}, "Compiles the Code in book in your hand", "compile", "name");
                 }
-            } else if (args[0].equalsIgnoreCase("c") || args[0].equalsIgnoreCase("compile")) {
-
             } else if (args[0].equalsIgnoreCase("i") || args[0].equalsIgnoreCase("instructions")) {
                 sendInstructions(sender);
+            } else if (args[0].equalsIgnoreCase("bookBug")) {
+                sender.sendMessage("§l§6----------[ Mining Turtle §5BookBug§6 ]----------");
+                sendTurtleMessage(sender, "§7You can rename books in Minecraft or via Plugin without any issues, but as soon as you open it, you aer unable to write. " +
+                        "For this you have to switch to page 2 and then back to 1 and it's possible again");
+                sendTurtleMessage(sender, "§7As soon as you close the book (in any case), the server removes the book from your Inventory, reads the text you've written and writes the text " +
+                        "in a completely new book which it gives back to you then");
+                sendTurtleMessage(sender, "§7The new book has all changes removed like DisplayName or the Lore");
             } else {
                 sendHelp(sender);
             }
@@ -116,12 +149,13 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
     private void sendHelp(CommandSender sender){
         sender.sendMessage("§l§6----------[ Mining Turtle ]----------");
         sendCommand(sender, new String[]{"p", "program"}, "Shows you a list of all your programs", "list");
-        sendCommand(sender, new String[]{"p", "program"}, "Gives you a book for a new program", "new", "name");
+        sendCommand(sender, new String[]{"p", "program"}, "Gives you a book for a new program", "new");
         sendCommand(sender, new String[]{"p", "program"}, "Allows you to edit an existing program", "edit", "name");
         sendCommand(sender, new String[]{"p", "program"}, "Deletes an existing program", "delete", "name");
         sendCommand(sender, new String[]{"p", "program"}, "Gives you a copy of you program to share with friends", "clone", "name");
-        sendCommand(sender, new String[]{"c", "compile"}, "Compiles the Code in book in your hand", "");
-        sendCommand(sender, new String[]{"i", "instructions"}, "Shows you the syntax you can program the turtle programs", "");
+        sendCommand(sender, new String[]{"p", "program"}, "Compiles the Code in book in your hand", "compile", "name");
+        sendCommand(sender, new String[]{"i", "instructions"}, "Shows you the syntax of Tuca, the turtle language", "");
+        //sendCommand(sender, new String[]{"bookBug"}, "Explanation of current Spigot bugs with books", "");
     }
     private void sendCommand(CommandSender sender, String[] cmdArr, String description, String... args){
         String arg = "";
@@ -199,10 +233,10 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
                 case ELIHW:
                     sendInstructionHelp(sender, instruction, "", "Terminates WHILE block");
                     break;
-                case IS_BLOCK:
+                case IS_B:
                     sendInstructionHelp(sender, instruction, ".BlockId | .Direction", "Checks if there is a block (with specified Id) in front (at given Direction) of the turtle");
                     break;
-                case IS_STORAGE_FULL:
+                case IS_SF:
                     sendInstructionHelp(sender, instruction, "", "Checks if the turtle storage is full");
                     break;
             }

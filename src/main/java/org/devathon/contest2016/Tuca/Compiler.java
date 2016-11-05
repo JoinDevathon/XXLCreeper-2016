@@ -1,5 +1,6 @@
 package org.devathon.contest2016.Tuca;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
@@ -8,11 +9,15 @@ import java.util.regex.Pattern;
 
 public class Compiler {
 
-    ItemStack stack;
-    ArrayList<Error> errors = new ArrayList<>();
+    private ItemStack stack;
+    private String name;
+    private Player p;
+    private ArrayList<Error> errors = new ArrayList<>();
 
-    public Compiler(ItemStack stack){
+    public Compiler(ItemStack stack, String name, Player p){
         this.stack = stack;
+        this.name = name;
+        this.p = p;
     }
 
 //-----------------------------------------------
@@ -21,6 +26,7 @@ public class Compiler {
         errors.clear();
         int IF = 0;
         int ELSE = 0;
+        int WHILE = 0;
         BookMeta meta = (BookMeta) stack.getItemMeta();
 
         ArrayList<String> lines = new ArrayList<>();
@@ -62,10 +68,14 @@ public class Compiler {
                                 ELSE++;
                             } else if(i0 == Instructions.ESLE) {
                                 ELSE--;
+                            } else if(i0 == Instructions.WHILE || i0 == Instructions.WHILENOT) {
+                                WHILE++;
+                            } else if(i0 == Instructions.ELIHW) {
+                                WHILE--;
                             }
 
                             Instructions i1 = Instructions.fromString(arr[1]);
-                            if(i1 == Instructions.IS_BLOCK){
+                            if(i1 == Instructions.IS_B){
                                 if(arr.length > 2){
                                     if(!isNumber(arr[2])){
                                         if(Instructions.fromString(arr[2]).getType() != Instructions.InstructionType.DIRECTION){
@@ -73,7 +83,7 @@ public class Compiler {
                                         }
                                     }
                                 }
-                            } else if (i1 != Instructions.IS_STORAGE_FULL){
+                            } else if (i1 != Instructions.IS_SF){
                                 errors.add(new Error(page, line, "Invalid argument: " + arr[1]));
                             }
                         }
@@ -86,8 +96,9 @@ public class Compiler {
             }
         }
 
-        if(IF != 0) errors.add(new Error(-1, -1, "Please take a look at your IF/ELSE Conditions. " + (IF > 0 ? "To many IF" : "non-closed IF blocks")));
-        if(ELSE != 0) errors.add(new Error(-1, -1, "Please take a look at your IF/ELSE Conditions. " + (ELSE > 0 ? "To many ELSE" : "non-closed ELSE blocks")));
+        if(IF != 0) errors.add(new Error(-1, -1, "Please take a look at your IF/ELSE Conditions. " + (IF > 0 ? "To many IF" : "non-closed IF block(s)")));
+        if(ELSE != 0) errors.add(new Error(-1, -1, "Please take a look at your IF/ELSE Conditions. " + (ELSE > 0 ? "To many ELSE" : "non-closed ELSE block(s)")));
+        if(WHILE != 0) errors.add(new Error(-1, -1, "Please take a look at your IF/ELSE Conditions. " + (WHILE > 0 ? "To many ELSE" : "non-closed WHILE block(s)")));
     }
 
 //-----------------------------------------------
@@ -99,6 +110,20 @@ public class Compiler {
         } catch (Exception e){
             return false;
         }
+    }
+
+//-----------------------------------------------
+
+    public boolean hasErrors(){
+        return errors.size() > 0;
+    }
+
+    public ArrayList<Error> getErrors(){
+        return errors;
+    }
+
+    public void save(){
+        IOUtils.save(((BookMeta)stack.getItemMeta()).getPages(), name, p);
     }
 
 }
