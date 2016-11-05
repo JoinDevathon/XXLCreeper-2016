@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e73e7d5-7937-4898-ace1-7492b23e57d6" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/JoinListener.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/IOUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Error.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Instructions.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/InstructionSet.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/CommandExecutor.java" afterPath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/CommandExecutor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/DevathonPlugin.java" afterPath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/DevathonPlugin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/InstructionSet.java" afterPath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/InstructionSet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/JoinListener.java" afterPath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/JoinListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Compiler.java" afterPath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Compiler.java" />
     </list>
     <ignored path="XXLCreeper-2016.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,11 +53,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CommandExecutor.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CommandExecutor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/CommandExecutor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="45" column="85" selection-start-line="45" selection-start-column="85" selection-end-line="45" selection-end-column="85" />
+            <state relative-caret-position="623">
+              <caret line="196" column="129" selection-start-line="196" selection-start-column="129" selection-end-line="196" selection-end-column="129" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -66,8 +68,8 @@
       <file leaf-file-name="IOUtils.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/IOUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="31" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+            <state relative-caret-position="272">
+              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#601#602#0" expanded="true" />
@@ -81,25 +83,54 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JoinListener.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="JoinListener.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/JoinListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="38" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
+            <state relative-caret-position="493">
+              <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#353#354#0" expanded="true" />
-                <element signature="e#400#401#0" expanded="true" />
+                <element signature="e#448#449#0" expanded="true" />
+                <element signature="e#495#496#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InstructionSet.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/InstructionSet.java">
+      <file leaf-file-name="Instructions.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Instructions.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+            <state relative-caret-position="357">
+              <caret line="36" column="40" selection-start-line="36" selection-start-column="40" selection-end-line="36" selection-end-column="40" />
+              <folding>
+                <element signature="e#1230#1231#0" expanded="true" />
+                <element signature="e#1262#1263#0" expanded="true" />
+                <element signature="e#1301#1302#0" expanded="true" />
+                <element signature="e#1333#1334#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Compiler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Compiler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="640">
+              <caret line="71" column="105" selection-start-line="71" selection-start-column="105" selection-end-line="71" selection-end-column="105" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#316#317#0" expanded="true" />
+                <element signature="e#350#351#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Error.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Error.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -129,11 +160,13 @@
         <option value="$PROJECT_DIR$/src/main/resources/plugin.yml" />
         <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/InstructionSet/Movement.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/JoinHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Compiler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/InstructionSet.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/JoinListener.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/DevathonPlugin.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/IOUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Error.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/JoinListener.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/InstructionSet.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Compiler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Instructions.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/CommandExecutor.java" />
       </list>
     </option>
@@ -543,6 +576,9 @@
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="1e73e7d5-7937-4898-ace1-7492b23e57d6" name="Default" comment="" />
@@ -558,7 +594,14 @@
       <option name="project" value="LOCAL" />
       <updated>1478370457093</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Even moar help!">
+      <created>1478375036580</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1478375036580</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -597,7 +640,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="Basic Help and Instruction Set" />
-    <option name="LAST_COMMIT_MESSAGE" value="Basic Help and Instruction Set" />
+    <MESSAGE value="Even moar help!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Even moar help!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -648,34 +692,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Compiler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/InstructionSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/JoinListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="38" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#353#354#0" expanded="true" />
-            <element signature="e#400#401#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/DevathonPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -694,10 +710,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Error.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Instructions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="36" column="40" selection-start-line="36" selection-start-column="40" selection-end-line="36" selection-end-column="40" />
+          <folding>
+            <element signature="e#1230#1231#0" expanded="true" />
+            <element signature="e#1262#1263#0" expanded="true" />
+            <element signature="e#1301#1302#0" expanded="true" />
+            <element signature="e#1333#1334#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Compiler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="640">
+          <caret line="71" column="105" selection-start-line="71" selection-start-column="105" selection-end-line="71" selection-end-column="105" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#316#317#0" expanded="true" />
+            <element signature="e#350#351#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/IOUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="31" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+        <state relative-caret-position="272">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#601#602#0" expanded="true" />
@@ -712,10 +761,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/CommandExecutor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="45" column="85" selection-start-line="45" selection-start-column="85" selection-end-line="45" selection-end-column="85" />
+        <state relative-caret-position="623">
+          <caret line="196" column="129" selection-start-line="196" selection-start-column="129" selection-end-line="196" selection-end-column="129" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/JoinListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#448#449#0" expanded="true" />
+            <element signature="e#495#496#0" expanded="true" />
           </folding>
         </state>
       </provider>

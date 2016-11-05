@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.devathon.contest2016.Tuca.IOUtils;
-import org.devathon.contest2016.Tuca.InstructionSet;
+import org.devathon.contest2016.Tuca.Instructions;
 
 public class CommandExecutor implements org.bukkit.command.CommandExecutor{
 
@@ -86,7 +86,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
                             sendCommand(sender, new String[]{"p", "program"}, "Gives you a copy of you program to share with friends", "clone", "name");
                         }
                     } else {
-                        sender.sendMessage("§cInvalid argument specified!");
+                        sendTurtleMessage(sender, "§cInvalid argument specified!");
                         sendCommand(sender, new String[]{"p", "program"}, "Shows you a list of all your programs", "list");
                         sendCommand(sender, new String[]{"p", "program"}, "Gives you a book for a new program", "new", "name");
                         sendCommand(sender, new String[]{"p", "program"}, "Allows you to edit an existing program", "edit", "name");
@@ -94,7 +94,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
                         sendCommand(sender, new String[]{"p", "program"}, "Gives you a copy of you program to share with friends", "clone", "name");
                     }
                 } else {
-                    sender.sendMessage("§cNo argument specified!");
+                    sendTurtleMessage(sender, "§cNo argument specified!");
                     sendCommand(sender, new String[]{"p", "program"}, "Shows you a list of all your programs", "list");
                     sendCommand(sender, new String[]{"p", "program"}, "Gives you a book for a new program", "new", "name");
                     sendCommand(sender, new String[]{"p", "program"}, "Allows you to edit an existing program", "edit", "name");
@@ -125,7 +125,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
     }
     private void sendCommand(CommandSender sender, String[] cmdArr, String description, String... args){
         String arg = "";
-        for(String str : args) arg += " " + str;
+        for(int i = 0; i < args.length; i++) arg += " §" + (i == 0 ? "3" : (i == 1 ? "d" : "9")) + args[i];
 
         sender.sendMessage("§6/" + DevathonPlugin.CMD_TURTLE + " " + modify(cmdArr, "§2") + "§3" + arg);
         if(description.length() > 0) sender.sendMessage(indent + ChatColor.GRAY + description);
@@ -147,7 +147,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
     private void sendInstructions(CommandSender sender){
         sender.sendMessage("§l§6----------[ Mining Turtle §5Instructions§6 ]----------");
         sender.sendMessage("§3§oCyan§r§7§o arguments are optional!");
-        for(InstructionSet instruction : InstructionSet.values()){
+        for(Instructions instruction : Instructions.values()){
             switch (instruction){
                 case MOVE:
                     sendInstructionHelp(sender, instruction, "Steps, .Direction", "Move x steps into current/selected direction");
@@ -182,13 +182,22 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
                 case FI:
                     sendInstructionHelp(sender, instruction, "", "Terminates IF block");
                     break;
-                case NOT:
+                case IFNOT:
                     sendInstructionHelp(sender, instruction, "", "Tells if to negotiate the result");
                 case ELSE:
                     sendInstructionHelp(sender, instruction, "", "Executes block if the IF condition returns false");
                     break;
                 case ESLE:
                     sendInstructionHelp(sender, instruction, "", "Terminates ELSE block");
+                    break;
+                case WHILE:
+                    sendInstructionHelp(sender, instruction, "", "WHILE loop will be executed until the condition becomes false");
+                    break;
+                case WHILENOT:
+                    sendInstructionHelp(sender, instruction, "", "WHILENOT loop will be executed until the condition becomes true");
+                    break;
+                case ELIHW:
+                    sendInstructionHelp(sender, instruction, "", "Terminates WHILE block");
                     break;
                 case IS_BLOCK:
                     sendInstructionHelp(sender, instruction, ".BlockId | .Direction", "Checks if there is a block (with specified Id) in front (at given Direction) of the turtle");
@@ -199,14 +208,17 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
             }
         }
     }
-    private void sendInstructionHelp(CommandSender sender, InstructionSet set, String args, String info){
+    private void sendInstructionHelp(CommandSender sender, Instructions set, String args, String info){
         sender.sendMessage("§5" + set.name() + (args.length() > 0 ? indent + "§8Args: §2" + args.replace(".", "§3") : ""));
         if(info.length() > 0) sender.sendMessage(indent + "§7" + info);
     }
 
     private void sendProgramList(Player sender){
         sender.sendMessage("§l§6----------[ Mining Turtle §5Programs§6 ]----------");
-        for(String str : IOUtils.getProgramList(sender)) sender.sendMessage("§2" + str);
+        String[] arr = IOUtils.getProgramList(sender);
+        if(arr.length == 0) sender.sendMessage("§7You don't have any programs");
+        else
+            for(int i = 0; i < arr.length; i++) sender.sendMessage("§7(§8" + (i+1) + "§7) §a" + arr[i]);
     }
 
     private void sendTurtleMessage(CommandSender sender, String message){
