@@ -4,9 +4,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class DevathonPlugin extends JavaPlugin {
 
+    static final String CMD_TURTLE = "turtle";
+
+
     @Override
     public void onEnable() {
-        // put your enable code here
+        getCommand(CMD_TURTLE).setExecutor(new CommandExecutor());
     }
 
     @Override
