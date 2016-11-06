@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e73e7d5-7937-4898-ace1-7492b23e57d6" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/MiningTurtle.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/CommandExecutor.java" afterPath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/CommandExecutor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/IOUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/IOUtils.java" />
     </list>
     <ignored path="XXLCreeper-2016.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -48,13 +48,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CommandExecutor.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CommandExecutor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/CommandExecutor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="485">
-              <caret line="71" column="29" selection-start-line="71" selection-start-column="29" selection-end-line="71" selection-end-column="29" />
+            <state relative-caret-position="740">
+              <caret line="146" column="81" selection-start-line="146" selection-start-column="81" selection-end-line="146" selection-end-column="81" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MiningTurtle.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/MiningTurtle.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="19" column="41" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#485#486#0" expanded="true" />
+                <element signature="e#517#518#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -125,19 +139,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Error.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Error.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" column="56" selection-start-line="18" selection-start-column="56" selection-end-line="18" selection-end-column="56" />
-              <folding>
-                <element signature="e#365#366#0" expanded="true" />
-                <element signature="e#445#446#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -171,6 +172,7 @@
         <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/Compiler.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/Tuca/IOUtils.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/CommandExecutor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/devathon/contest2016/MiningTurtle.java" />
       </list>
     </option>
   </component>
@@ -625,7 +627,14 @@
       <option name="project" value="LOCAL" />
       <updated>1478390884451</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added missing commands">
+      <created>1478396790159</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1478396790159</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -668,7 +677,8 @@
     <MESSAGE value="Compiler v1" />
     <MESSAGE value="Compiler v2" />
     <MESSAGE value="Compiler v3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Compiler v3" />
+    <MESSAGE value="Added missing commands" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added missing commands" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -817,10 +827,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/CommandExecutor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="485">
-          <caret line="71" column="29" selection-start-line="71" selection-start-column="29" selection-end-line="71" selection-end-column="29" />
+        <state relative-caret-position="740">
+          <caret line="146" column="81" selection-start-line="146" selection-start-column="81" selection-end-line="146" selection-end-column="81" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/devathon/contest2016/MiningTurtle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="41" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#485#486#0" expanded="true" />
+            <element signature="e#517#518#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -143,6 +143,8 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
                 sendTurtleMessage(sender, "§7As soon as you close the book (in any case), the server removes the book from your Inventory, reads the text you've written and writes the text " +
                         "in a completely new book which it gives back to you then");
                 sendTurtleMessage(sender, "§7The new book has all changes removed like DisplayName or the Lore");
+            } else if (args[0].equalsIgnoreCase("s") || args[0].equalsIgnoreCase("spawn")) {
+                new MiningTurtle("alfred").spawn(((Player)sender).getLocation());
             } else {
                 sendHelp(sender);
             }
