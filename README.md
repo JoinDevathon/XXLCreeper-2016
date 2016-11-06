@@ -1,7 +1,8 @@
 #TUCA
 Once you join the server you'll get an introduction to the plugin.
 Due to not enough time an lack of knowledge same parts of the TUCA "language" don't work or may sometimes not work as expected.
-As the Theme is Machines, we need one to execute the code on and that's a MiningTurtle.
+As the Theme is Machines, we have a Mining Turtle as our machine. We can't directly control it, but indirectly with our code.
+To keep things completely in Minecraft, you write your own code in a Book and once you're finished, you tell the server that you want to save the program so you can use it. Before saving, the server checks if the Syntax is corrent. You can always modify them later on if you want to.
 
 Cheers
 
