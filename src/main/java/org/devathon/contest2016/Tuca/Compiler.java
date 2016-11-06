@@ -30,19 +30,31 @@ public class Compiler {
         BookMeta meta = (BookMeta) stack.getItemMeta();
 
         ArrayList<String> lines = new ArrayList<>();
-        for(int page = 0; page < meta.getPages().size(); page++){
-            String[] lineArr = meta.getPage(page).replace("§0", "").split(Pattern.quote("\n"));
+        int page = 0;
+        for(String pageStr : meta.getPages()){
+            String[] lineArr = pageStr.replace("§0", "").split(Pattern.quote("\n"));
             if(lineArr.length == 0) continue;
 
             for(int line = 0; line < lineArr.length; line++){
-                if(lineArr[line].length() == 0) continue;
-                String[] arr = lineArr[line].split(Pattern.quote(" "));
+                if(lineArr[line].trim().length() == 0) continue;
+                String[] arr = lineArr[line].trim().split(Pattern.quote(" "));
 
                 Instructions i0 = Instructions.fromString(arr[0]);
                 if(i0.getType() == Instructions.InstructionType.ACTION || i0.getType() == Instructions.InstructionType.LOGIC){
-                    if(arr.length > 1){
-                        if(i0.getType() == Instructions.InstructionType.ACTION){
-                            //Check for action structure
+                    if(i0 == Instructions.TURN){
+                        if(arr.length > 1){
+                            if(Instructions.fromString(arr[1]).getType() != Instructions.InstructionType.DIRECTION){
+                                errors.add(new Error(page, line, "Argument 1 is not a direction: " + arr[1]));
+                            } else {
+                                if(arr.length > 2){
+                                    errors.add(new Error(page, line, "Too many arguments: " + lineArr[line]));
+                                }
+                            }
+                        } else {
+                            errors.add(new Error(page, line, "Missing argument(s): " + lineArr[line]));
+                        }
+                    } else if (i0 == Instructions.MOVE) {
+                        if(arr.length > 1){
                             if(isNumber(arr[1])){
                                 if(arr.length > 2){
                                     Instructions i2 = Instructions.fromString(arr[2]);
@@ -58,43 +70,69 @@ public class Compiler {
                                 errors.add(new Error(page, line, "Argument 1 is not a number: " + arr[1]));
                             }
                         } else {
-                            //Check for logic structure
-                            if(i0 == Instructions.FI || i0 == Instructions.IFNOT){
-                                IF++;
-                            } else if(i0 == Instructions.FI){
-                                IF--;
-                            } else if(i0 == Instructions.ELSE){
-                                IF--;
-                                ELSE++;
-                            } else if(i0 == Instructions.ESLE) {
-                                ELSE--;
-                            } else if(i0 == Instructions.WHILE || i0 == Instructions.WHILENOT) {
-                                WHILE++;
-                            } else if(i0 == Instructions.ELIHW) {
-                                WHILE--;
+                            errors.add(new Error(page, line, "Missing argument(s): " + lineArr[line]));
+                        }
+                    } else if(i0 == Instructions.MINE){
+                        if(arr.length > 1){
+                            if(Instructions.fromString(arr[1]).getType() != Instructions.InstructionType.DIRECTION){
+                                errors.add(new Error(page, line, "Argument 1 is not a direction: " + arr[1]));
+                            } else {
+                                if(arr.length > 2){
+                                    errors.add(new Error(page, line, "Too many arguments: " + lineArr[line]));
+                                }
                             }
+                        }
+                    } else {
+                        //Check for logic structure
+                        if(i0 == Instructions.IF || i0 == Instructions.IFNOT){
+                            IF++;
+                        } else if(i0 == Instructions.FI){
+                            IF--;
+                            continue;
+                        } else if(i0 == Instructions.ELSE){
+                            IF--;
+                            ELSE++;
+                            continue;
+                        } else if(i0 == Instructions.ESLE) {
+                            ELSE--;
+                            continue;
+                        } else if(i0 == Instructions.WHILE || i0 == Instructions.WHILENOT) {
+                            WHILE++;
+                        } else if(i0 == Instructions.ELIHW) {
+                            WHILE--;
+                            continue;
+                        }
 
+                        if(arr.length > 1){
                             Instructions i1 = Instructions.fromString(arr[1]);
                             if(i1 == Instructions.IS_B){
                                 if(arr.length > 2){
                                     if(!isNumber(arr[2])){
                                         if(Instructions.fromString(arr[2]).getType() != Instructions.InstructionType.DIRECTION){
                                             errors.add(new Error(page, line, "Argument 2 is neither a number, nor a direction: " + arr[1]));
+                                        } else {
+                                            if(arr.length > 3){
+                                                errors.add(new Error(page, line, "Too many arguments: " + lineArr[line]));
+                                            }
                                         }
                                     }
                                 }
                             } else if (i1 != Instructions.IS_SF){
                                 errors.add(new Error(page, line, "Invalid argument: " + arr[1]));
+                                if(arr.length > 2){
+                                    errors.add(new Error(page, line, "Too many arguments: " + lineArr[line]));
+                                }
                             }
+                        } else {
+                            errors.add(new Error(page, line, "Missing argument(s): " + lineArr[line]));
                         }
-                    } else {
-                        errors.add(new Error(page, line, "Missing argument(s): " + lineArr[line]));
                     }
-                } else {
-                    errors.add(new Error(page, line, "Invalid line start: " + lineArr[line]));
                 }
             }
+            page++;
         }
+
+        //System.out.println("i:" + IF + " e:" + ELSE + " w:" + WHILE);
 
         if(IF != 0) errors.add(new Error(-1, -1, "Please take a look at your IF/ELSE Conditions. " + (IF > 0 ? "To many IF" : "non-closed IF block(s)")));
         if(ELSE != 0) errors.add(new Error(-1, -1, "Please take a look at your IF/ELSE Conditions. " + (ELSE > 0 ? "To many ELSE" : "non-closed ELSE block(s)")));

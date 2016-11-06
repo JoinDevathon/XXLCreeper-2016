@@ -16,7 +16,7 @@ public class Error {
 
     @Override
     public String toString(){
-        return "§7p:§3" + page + "§7, l:§2" + line + ", e:§4 " + error;
+        return "§7p:§3" + page + "§7, l:§2" + line + "§7, e:§4 " + error;
     }
 
 }

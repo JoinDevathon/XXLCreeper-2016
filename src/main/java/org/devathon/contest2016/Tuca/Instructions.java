@@ -45,7 +45,7 @@ public enum Instructions {
 //-----------------------------------------------
 
     private InstructionType type;
-    Instructions(InstructionType typ){
+    Instructions(InstructionType type){
         this.type = type;
     }
 

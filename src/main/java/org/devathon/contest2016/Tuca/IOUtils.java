@@ -39,8 +39,8 @@ public class IOUtils {
             f.createNewFile();
             BufferedWriter writer = new BufferedWriter(new FileWriter(f));
             for(String page : pages){
-                for(String line : page.replace("§0", "").split(Pattern.quote(" "))){
-                    writer.write(line);
+                for(String line : page.replace("§0", "").split(Pattern.quote("\n"))){
+                    writer.write(line.trim());
                     writer.newLine();
                 }
             }

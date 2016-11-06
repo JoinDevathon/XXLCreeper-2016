@@ -92,11 +92,12 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
                                         compiler.compile();
 
                                         if(compiler.hasErrors()){
-                                            sendTurtleMessage(sender, "§There are Errors in your code:");
+                                            sendTurtleMessage(sender, "§cThere are Errors in your code:");
                                             for(org.devathon.contest2016.Tuca.Error error : compiler.getErrors()) sender.sendMessage(error.toString());
                                         } else {
                                             compiler.save();
-                                            ((Player)sender).getInventory().getItemInMainHand().setType(Material.AIR);
+                                            sendTurtleMessage(sender, "§aYour Program §3" + args[2] + " §ais saved!");
+                                            ((Player)sender).getInventory().setItemInMainHand(new ItemStack(Material.AIR));
                                         }
                                     } else {
                                         sendTurtleMessage(sender, "§cYou must have a book and quill or signed book in your main hand!");
