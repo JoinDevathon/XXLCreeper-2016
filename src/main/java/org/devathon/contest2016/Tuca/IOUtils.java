@@ -1,12 +1,13 @@
 package org.devathon.contest2016.Tuca;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.devathon.contest2016.DevathonPlugin;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -49,6 +50,43 @@ public class IOUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void delete(String name, Player p){
+        File f = new File(progs(p), name);
+        if(f.exists()) f.delete();
+    }
+
+    private static final int book_lines = 14;
+    public static ItemStack read(String name, Player p){
+        File f = new File(progs(p), name);
+        ItemStack stack = new ItemStack(Material.BOOK_AND_QUILL);
+        BookMeta meta = (BookMeta) stack.getItemMeta();
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(f));
+            String line, temp = "";
+            int lineCount = 0;
+            ArrayList<String> lines = new ArrayList<>();
+            while((line = reader.readLine()) != null) {
+                if (lineCount < book_lines) {
+                    temp += line + "\n";
+                    lineCount++;
+                } else {
+                    lines.add(temp.substring(0, temp.length() - 1));
+                    temp = "";
+                    lineCount = 0;
+                }
+            }
+            lines.add(temp.substring(0, temp.length() - 1));
+            reader.close();
+
+            meta.setPages(lines);
+            stack.setItemMeta(meta);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stack;
     }
 
 //-----------------------------------------------

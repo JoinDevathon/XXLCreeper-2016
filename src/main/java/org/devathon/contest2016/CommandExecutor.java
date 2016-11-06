@@ -52,7 +52,9 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
                     } else if(args[1].equalsIgnoreCase("edit")){
                         if(args.length > 2){
                             if(IOUtils.getProgramExists((Player)sender, args[2])){
-
+                                sendTurtleMessage(sender, "§aRemoving Program from store for you to edit §7(recompile to use it again)");
+                                ((Player)sender).getInventory().addItem(IOUtils.read(args[2], (Player)sender));
+                                IOUtils.delete(args[2], (Player)sender);
                             } else {
                                 sendTurtleMessage(sender, "§cProgram does not exist!");
                             }
@@ -63,7 +65,8 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
                     } else if(args[1].equalsIgnoreCase("delete")){
                         if(args.length > 2){
                             if(IOUtils.getProgramExists((Player)sender, args[2])){
-
+                                sendTurtleMessage(sender, "§cProgram §3'" + args[2] + "' §c successfully deleted!");
+                                IOUtils.delete(args[2], (Player)sender);
                             } else {
                                 sendTurtleMessage(sender, "§cProgram does not exist!");
                             }
@@ -74,7 +77,8 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
                     } else if(args[1].equalsIgnoreCase("clone")){
                         if(args.length > 2){
                             if(IOUtils.getProgramExists((Player)sender, args[2])){
-
+                                sendTurtleMessage(sender, "§aHere's your cloned version. Feel free to share it with friends.");
+                                ((Player)sender).getInventory().addItem(IOUtils.read(args[2], (Player)sender));
                             } else {
                                 sendTurtleMessage(sender, "§cProgram does not exist!");
                             }
