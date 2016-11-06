@@ -119,8 +119,16 @@ public class MiningTurtle {
     }
 
     public void mine(Instructions direction){
-        rotate(direction);
-        Location loc = moveLoc(chest.getBukkitEntity().getLocation(), face.x, 0, face.z);
+        Location loc;
+
+        //ArmorStand is 2 Blocks high, but only the head is visible!
+        if(direction == Instructions.UP || direction == Instructions.DOWN){
+            Location lx = chest.getBukkitEntity().getLocation();
+            loc = moveLoc(lx, 0, (direction == Instructions.DOWN ? 0 : 2), 0);
+        } else {
+            rotate(direction);
+            loc = moveLoc(chest.getBukkitEntity().getLocation(), face.x, 1, face.z);
+        }
 
         Material m = loc.getBlock().getType();
         loc.getBlock().setType(Material.AIR);

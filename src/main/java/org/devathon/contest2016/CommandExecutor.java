@@ -162,7 +162,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
                         if(!player_turtle.get(((Player)sender).getUniqueId()).codeRunning){
                             try {
                                 if(IOUtils.getProgramExists((Player)sender, args[1])){
-                                    new Interpreter((Player)sender, args[1], player_turtle.get(((Player)sender).getUniqueId())).execute();
+                                    new Interpreter((Player)sender, args[1], player_turtle.get(((Player)sender).getUniqueId()), pl).execute();
                                 } else {
                                     sendTurtleMessage(sender, "§cProgram does not exist!");
                                 }
