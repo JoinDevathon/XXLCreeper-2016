@@ -39,15 +39,18 @@ public class Interpreter {
                         if(i0.getType() == Instructions.InstructionType.ACTION){
                             if(i0 == Instructions.MOVE){
                                 if(isNumber(arr[1])){
-                                    for(int i = 0; i < Integer.parseInt(arr[1]); i++){
-                                        turtle.move(Instructions.FORWARD);
+                                    if(arr.length > 2){
+                                        Instructions i1 = Instructions.fromString(arr[2]);
+                                        //turtle.rotate(i1);
+                                        for(int i = 0; i < Integer.parseInt(arr[1]); i++){
+                                            turtle.move(i1);
+                                        }
+                                    } else {
+                                        for(int i = 0; i < Integer.parseInt(arr[1]); i++){
+                                            turtle.move(Instructions.FORWARD);
+                                        }
                                     }
                                 } else {
-                                    Instructions i1 = Instructions.fromString(arr[1]);
-                                    turtle.rotate(i1);
-                                    for(int i = 0; i < Integer.parseInt(arr[2]); i++){
-                                        turtle.move(Instructions.FORWARD);
-                                    }
                                 }
                             } else if(i0 == Instructions.TURN){
                                 turtle.rotate(Instructions.fromString(arr[1]));

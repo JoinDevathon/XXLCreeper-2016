@@ -200,7 +200,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
                             } else if(i == 2) {
                                 p.performCommand("turtle p compile sample");
                                 p.sendMessage("§63) §7Oh, we got some errors. Time to correct them");
-                                String[] correctCode = new String[]{"MOVE 1", "TURN LEFT", "MOVE 1", "TURN LEFT", "MOVE 1", "TURN LEFT", "MOVE 1", "TURN LEFT", "MOVE 2", "TURN LEFT", "MOVE 2", "TURN LEFT", "MOVE 2", "TURN LEFT", "MOVE 2", "TURN LEFT"};
+                                String[] correctCode = new String[]{"MOVE 1", "TURN LEFT", "MOVE 1", "TURN LEFT", "MOVE 1", "TURN LEFT", "MOVE 2 UP", "MOVE 1", "TURN LEFT", "MOVE 2", "TURN LEFT", "MOVE 1 DOWN", "MOVE 2", "TURN LEFT", "MOVE 2", "TURN LEFT", "MOVE 2", "MOVE 1 DOWN", "TURN LEFT"};
                                 BookMeta meta = (BookMeta) p.getInventory().getItemInMainHand().getItemMeta();
                                 meta.setPages(Arrays.asList(correctCode));
                                 p.getInventory().getItemInMainHand().setItemMeta(meta);

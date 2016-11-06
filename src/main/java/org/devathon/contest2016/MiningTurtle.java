@@ -101,14 +101,12 @@ public class MiningTurtle {
 
         if(direction == Instructions.UP){
             setLocation(moveLoc(loc, 0, 1, 0));
-            return;
         } else if(direction == Instructions.DOWN){
             setLocation(moveLoc(loc, 0, -1, 0));
-            return;
+        } else {
+            setLocation(moveLoc(loc, face.x, 0, face.z));
+            rotate(direction);
         }
-
-        setLocation(moveLoc(loc, face.x, 0, face.z));
-        rotate(direction);
     }
 
     public boolean isBlock(Instructions direction, int id){
