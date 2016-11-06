@@ -1,6 +1,7 @@
 #TUCA
 Once you join the server you'll get an introduction to the plugin.
-Due to not enough time an lack of knowledge same parts of the TUCA "language" don't work or may sometimes not work as expected
+Due to not enough time an lack of knowledge same parts of the TUCA "language" don't work or may sometimes not work as expected.
+As the Theme is Machines, we need one to execute the code on and that's a MiningTurtle.
 
 Cheers
 
