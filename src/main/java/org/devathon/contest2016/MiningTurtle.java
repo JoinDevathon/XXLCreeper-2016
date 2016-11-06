@@ -1,125 +1,114 @@
 package org.devathon.contest2016;
 
+import net.minecraft.server.v1_10_R1.EntityArmorStand;
+import net.minecraft.server.v1_10_R1.Vector3f;
+import net.minecraft.server.v1_10_R1.World;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftArmorStand;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.EulerAngle;
-import org.bukkit.util.Vector;
 import org.devathon.contest2016.Tuca.Instructions;
 
-/**
- * Created by Simon on 06.11.2016.
- */
+import java.util.HashMap;
+
 public class MiningTurtle {
 
-    private String name;
-    private ArmorStand chest;
-    private ArmorStand body;
-    private ArmorStand pick;
-    private Direction face;
+    public EntityArmorStand chest;
+    private EntityArmorStand body;
+    private EntityArmorStand pick;
+    private Face face;
+    private HashMap<Material, Integer> minedItems;
 
-    /*
-        TODO add furnace at back for fuel
-     */
+    public MiningTurtle(Location loc, String name) {
+        this.face = Face.NORTH;
+        this.minedItems = new HashMap<>();
+        World world = ((CraftWorld)normalize(loc).getWorld()).getHandle();
 
-    public MiningTurtle(String name){
-        this.name = name;
-    }
-
-//-----------------------------------------------
-
-    public void spawn(Location loc){
-        //System.out.println(loc.toString());
-        face = Direction.NORTH;
-        loc = normalize(loc);
-        //System.out.println(loc.toString());
-        chest = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
-        chest.setCustomNameVisible(true);
-        chest.setVisible(false);
-        chest.setGravity(false);
+        chest = new EntityArmorStand(world);
         chest.setBasePlate(false);
-        chest.setArms(false);
-        chest.setAI(false);
+        chest.setInvisible(true);
+        chest.setNoGravity(true);
+        chest.setCustomNameVisible(true);
         chest.setCustomName(name);
-        chest.setHelmet(new ItemStack(Material.TRAPPED_CHEST));
+        ((CraftArmorStand)chest.getBukkitEntity()).setAI(false);
+        ((CraftArmorStand)chest.getBukkitEntity()).setHelmet(new ItemStack(Material.CHEST));
 
-        body = (ArmorStand) loc.getWorld().spawnEntity(moveLoc(loc, 0, -0.35, 0, 0, 0), EntityType.ARMOR_STAND);
-        body.setCustomNameVisible(false);
-        body.setVisible(false);
-        body.setGravity(false);
+        body = new EntityArmorStand(world);
         body.setBasePlate(false);
-        body.setArms(false);
-        body.setAI(false);
-        body.setHelmet(new ItemStack(Material.IRON_BLOCK));
+        body.setInvisible(true);
+        body.setNoGravity(true);
+        ((CraftArmorStand)body.getBukkitEntity()).setAI(false);
+        ((CraftArmorStand)body.getBukkitEntity()).setHelmet(new ItemStack(Material.IRON_BLOCK));
 
-        pick = (ArmorStand) loc.getWorld().spawnEntity(moveLoc(loc, 0.12, 0.30, -0.22, 0, 0), EntityType.ARMOR_STAND);
-        pick.setCustomNameVisible(false);
-        pick.setVisible(false);
-        pick.setGravity(false);
+        pick = new EntityArmorStand(world);
         pick.setBasePlate(false);
-        pick.setArms(false);
-        pick.setAI(false);
-        pick.setItemInHand(new ItemStack(Material.DIAMOND_PICKAXE));
+        pick.setInvisible(true);
+        pick.setNoGravity(true);
+        ((CraftArmorStand)pick.getBukkitEntity()).setAI(false);
+        ((CraftArmorStand)pick.getBukkitEntity()).setHelmet(new ItemStack(Material.DIAMOND_PICKAXE));
 
-
-        move(Instructions.UP);
-        move(Instructions.LEFT);
-        move(Instructions.LEFT);
-        move(Instructions.DOWN);
+        setLocation(loc);
+        chest.world.addEntity(chest);
+        body.world.addEntity(body);
+        pick.world.addEntity(pick);
     }
 
 //-----------------------------------------------
 
-    public void turn(Instructions direction){
-        chest.setHeadPose(new EulerAngle(0, 75, 0));
-        /*if(direction == Instructions.LEFT){
-            chest.teleport(changeDirection(chest.getLocation(), (face = Direction.getDirection(face, 90))));
+    public void setLocation(Location loc){
+        loc = normalize(loc);
+        Location locBody = moveLoc(loc, 0, -0.35, 0);
+        Location locPick = moveLoc(loc, -0.60, -0.60, 0.20);
+
+        chest.setLocation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
+        body.setLocation(locBody.getX(), locBody.getY(), locBody.getZ(), locBody.getYaw(), locBody.getPitch());
+        pick.setLocation(locPick.getX(), locPick.getY(), locPick.getZ(), locPick.getYaw(), locPick.getPitch());
+        pick.setHeadPose(new Vector3f(pick.leftArmPose.getX(), pick.leftArmPose.getY()+90, pick.leftArmPose.getZ()));
+    }
+
+    public void rotate(Instructions direction){
+        if(direction == Instructions.BACKWARD){
+            face = Face.getDirection(face, 180);
+        } else if(direction == Instructions.LEFT){
+            face = Face.getDirection(face, -90);
         } else if(direction == Instructions.RIGHT){
-            chest.teleport(changeDirection(chest.getLocation(), (face = Direction.getDirection(face, -90))));
-        } else if(direction == Instructions.BACKWARD){
-            chest.teleport(changeDirection(chest.getLocation(), (face = Direction.getDirection(face, 180))));
-        }*/
+            face = Face.getDirection(face, 90);
+        }
+
+        //x -> forward
+        //y -> rotate
+        //z -> sideways
+        Location loc = chest.getBukkitEntity().getLocation();
+        chest.setHeadPose(new Vector3f(chest.headPose.getX(), face.getYaw(), chest.headPose.getZ()));
+        pick.setHeadPose(new Vector3f(pick.headPose.getX(), face.getYaw(), pick.headPose.getZ()));
     }
 
     public void move(Instructions direction){
-        if(direction == Instructions.FORWARD){
-            chest.teleport(moveLoc(chest.getLocation(), face.x, 0, face.z, 0, 0));
-            body.teleport(moveLoc(body.getLocation(), face.x, 0, face.z, 0, 0));
-            pick.teleport(moveLoc(pick.getLocation(), face.x, 0, face.z, 0, 0));
-        } else if(direction == Instructions.BACKWARD){
-            chest.teleport(moveLoc(chest.getLocation(), face.x, 0, face.z, 0, 0));
-            body.teleport(moveLoc(body.getLocation(), face.x, 0, face.z, 0, 0));
-            pick.teleport(moveLoc(pick.getLocation(), face.x, 0, face.z, 0, 0));
-        } else if(direction == Instructions.LEFT){
-            chest.teleport(moveLoc(chest.getLocation(), face.x, 0, face.z, 0, 0));
-            body.teleport(moveLoc(body.getLocation(), face.x, 0, face.z, 0, 0));
-            pick.teleport(moveLoc(pick.getLocation(), face.x, 0, face.z, 0, 0));
-        } else if(direction == Instructions.RIGHT){
-            chest.teleport(moveLoc(chest.getLocation(), face.x, 0, face.z, 0, 0));
-            body.teleport(moveLoc(body.getLocation(), face.x, 0, face.z, 0, 0));
-            pick.teleport(moveLoc(pick.getLocation(), face.x, 0, face.z, 0, 0));
-        } else if(direction == Instructions.UP){
-            chest.teleport(moveLoc(chest.getLocation(), 0, 1, 0, 0, 0));
-            body.teleport(moveLoc(body.getLocation(), 0, 1, 0, 0, 0));
-            pick.teleport(moveLoc(pick.getLocation(), 0, 1, 0, 0, 0));
-        } else if(direction == Instructions.DOWN){
-            chest.teleport(moveLoc(chest.getLocation(), 0, -1, 0, 0, 0));
-            body.teleport(moveLoc(body.getLocation(), 0, -1, 0, 0, 0));
-            pick.teleport(moveLoc(pick.getLocation(), 0, -1, 0, 0, 0));
-        }
+        Location loc = chest.getBukkitEntity().getLocation();
 
-        ((CraftArmorStand)chest).getHandle().m();
+        if(direction == Instructions.UP){
+            setLocation(moveLoc(loc, 0, 1, 0));
+            return;
+        } else if(direction == Instructions.DOWN){
+            setLocation(moveLoc(loc, 0, -1, 0));
+            return;
+        }
+        rotate(direction);
+        setLocation(moveLoc(loc, face.x, 0, face.z));
+    }
+
+    public void mine(Instructions direction){
+        rotate(direction);
+        Location loc = moveLoc(chest.getBukkitEntity().getLocation(), face.x, 0, face.z);
+
+        Material m = loc.getBlock().getType();
+        loc.getBlock().setType(Material.AIR);
+
+        minedItems.put(m, (minedItems.containsKey(m) ? minedItems.get(m) + 1 : 1));
     }
 
 //-----------------------------------------------
-
-    private Location moveLoc(Location loc, double x, double y, double z, float yaw, float pitch){
-        return new Location(loc.getWorld(), loc.getX()+x, loc.getY()+y, loc.getZ()+z, loc.getYaw()+yaw, loc.getPitch()+pitch);
-    }
 
     private Location normalize(Location loc){ //x y z, !yaw!, pitch
         if (loc.getYaw() < 0) loc.setYaw((loc.getYaw()+180)*-1);
@@ -131,21 +120,21 @@ public class MiningTurtle {
                 /*(loc.getYaw() > 315 ? 360 : (loc.getYaw() > 255 ? 270 : (loc.getYaw() >  135 ? 180 : (loc.getYaw() > 45 ? 90 : 0))))*/0, 0);
     }
 
-    private Location changeDirection(Location loc, Direction dir){
-        return new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ(), dir.getYaw(), loc.getPitch());
+    private Location moveLoc(Location loc, double x, double y, double z){
+        return new Location(loc.getWorld(), loc.getX()+x, loc.getY()+y, loc.getZ()+z);
     }
 
 //-----------------------------------------------
 
-    public enum Direction{
-        NORTH(0, 0, -1),
-        EAST(90, 1, 0),
-        SOUTH(180, 0, 1),
-        WEST(270, -1, 0);
+    public enum Face{
+        NORTH(180, 0, -1),
+        EAST(270, 1, 0),
+        SOUTH(0, 0, 1),
+        WEST(90, -1, 0);
 
         private int yaw;
-        int x, z;
-        Direction(int yaw, int x, int z){
+        public int x, z;
+        Face(int yaw, int x, int z){
             this.yaw = yaw;
             this.x = x;
             this.z = z;
@@ -155,15 +144,16 @@ public class MiningTurtle {
             return this.yaw;
         }
 
-        public static Direction getDirection(Direction current, int add){
-            int val = current.getYaw() + add;
-            while(val > 360) val -= 360;
-            while(val < 0) val += 360;
 
-            for(Direction direction : Direction.values()){
-                if(direction.getYaw() == val) return direction;
+        public static Face getDirection(Face current, int add) {
+            int val = current.getYaw() + add;
+            while (val > 360) val -= 360;
+            while (val < 0) val += 360;
+
+            for (Face direction : Face.values()) {
+                if (direction.getYaw() == val) return direction;
             }
-            return Direction.NORTH;
+            return Face.NORTH;
         }
     }
 

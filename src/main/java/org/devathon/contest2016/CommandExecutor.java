@@ -4,7 +4,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.devathon.contest2016.Tuca.IOUtils;
@@ -148,14 +147,13 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor{
                         "in a completely new book which it gives back to you then");
                 sendTurtleMessage(sender, "§7The new book has all changes removed like DisplayName or the Lore");
             } else if (args[0].equalsIgnoreCase("s") || args[0].equalsIgnoreCase("spawn")) {
-                //new MiningTurtle("alfred").spawn(((Player)sender).getLocation());
-                MiningTurtle_v2 turtle = new MiningTurtle_v2(((Player)sender).getLocation(), "Alfred");
-/*                new Timer().scheduleAtFixedRate(new TimerTask() {
+                MiningTurtle turtle = new MiningTurtle(((Player)sender).getLocation(), "Alfred");
+                new Timer().scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {
-                        turtle.setLocation(turtle.moveLoc(turtle.chest.getBukkitEntity().getLocation(), 0, 1, 0, 0 ,0));
+                        turtle.move(Instructions.LEFT);
                     }
-                }, 1000, 1000);*/
+                }, 500, 500);
             } else {
                 sendHelp(sender);
             }

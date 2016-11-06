@@ -89,6 +89,22 @@ public class IOUtils {
         return stack;
     }
 
+    public static ArrayList<String> readProg(String name, Player p){
+        File f = new File(progs(p), name);
+        ArrayList<String> lines = new ArrayList<>();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(f));
+            String line = "";
+            while((line = reader.readLine()) != null){
+                lines.add(line);
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lines;
+    }
+
 //-----------------------------------------------
 
     private static File file(Player p){
