@@ -12,7 +12,7 @@ public class DevathonPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getCommand(CMD_TURTLE).setExecutor(new CommandExecutor());
+        getCommand(CMD_TURTLE).setExecutor(new CommandExecutor(this));
         getServer().getPluginManager().registerEvents(new JoinListener(), this);
 
         File data = new File(getDataFolder().getPath(), "Turtle");
@@ -22,7 +22,10 @@ public class DevathonPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // put your disable code here
+        for(MiningTurtle t : CommandExecutor.player_turtle.values()){
+            t.despawn();
+        }
+        CommandExecutor.player_turtle.clear();
     }
 }
 

@@ -19,9 +19,10 @@ public class MiningTurtle {
     private EntityArmorStand pick;
     private Face face;
     private HashMap<Material, Integer> minedItems;
+    public boolean codeRunning = false;
 
     public MiningTurtle(Location loc, String name) {
-        this.face = Face.NORTH;
+        this.face = Face.SOUTH;
         this.minedItems = new HashMap<>();
         World world = ((CraftWorld)normalize(loc).getWorld()).getHandle();
 
@@ -46,25 +47,34 @@ public class MiningTurtle {
         pick.setInvisible(true);
         pick.setNoGravity(true);
         ((CraftArmorStand)pick.getBukkitEntity()).setAI(false);
-        ((CraftArmorStand)pick.getBukkitEntity()).setHelmet(new ItemStack(Material.DIAMOND_PICKAXE));
+        ((CraftArmorStand)pick.getBukkitEntity()).setItemInHand(new ItemStack(Material.DIAMOND_PICKAXE));
 
         setLocation(loc);
         chest.world.addEntity(chest);
         body.world.addEntity(body);
         pick.world.addEntity(pick);
+        pick.setRightArmPose(new Vector3f(pick.rightArmPose.getX()-5, pick.rightArmPose.getY()-10, pick.rightArmPose.getZ()-15));
+        rotate(Instructions.FORWARD);
     }
 
 //-----------------------------------------------
 
-    public void setLocation(Location loc){
+    public void despawn(){
+        chest.die();
+        body.die();
+        pick.die();
+    }
+
+//-----------------------------------------------
+
+    private void setLocation(Location loc){
         loc = normalize(loc);
         Location locBody = moveLoc(loc, 0, -0.35, 0);
-        Location locPick = moveLoc(loc, -0.60, -0.60, 0.20);
+        Location locPick = moveLoc(loc, 0, 0.35, 0);
 
         chest.setLocation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
         body.setLocation(locBody.getX(), locBody.getY(), locBody.getZ(), locBody.getYaw(), locBody.getPitch());
         pick.setLocation(locPick.getX(), locPick.getY(), locPick.getZ(), locPick.getYaw(), locPick.getPitch());
-        pick.setHeadPose(new Vector3f(pick.leftArmPose.getX(), pick.leftArmPose.getY()+90, pick.leftArmPose.getZ()));
     }
 
     public void rotate(Instructions direction){
@@ -79,9 +89,11 @@ public class MiningTurtle {
         //x -> forward
         //y -> rotate
         //z -> sideways
-        Location loc = chest.getBukkitEntity().getLocation();
         chest.setHeadPose(new Vector3f(chest.headPose.getX(), face.getYaw(), chest.headPose.getZ()));
-        pick.setHeadPose(new Vector3f(pick.headPose.getX(), face.getYaw(), pick.headPose.getZ()));
+        //pick.setHeadPose(new Vector3f(pick.headPose.getX(), face.getYaw(), pick.headPose.getZ()));
+        //pick.setLeftArmPose(new Vector3f(pick.leftArmPose.getX(), pick.leftArmPose.getY(), pick.leftArmPose.getZ()));
+        Location loc = pick.getBukkitEntity().getLocation();
+        pick.setPositionRotation(loc.getX(), loc.getY(), loc.getZ(), face.getYaw(), loc.getPitch());
     }
 
     public void move(Instructions direction){
@@ -94,8 +106,18 @@ public class MiningTurtle {
             setLocation(moveLoc(loc, 0, -1, 0));
             return;
         }
-        rotate(direction);
+
         setLocation(moveLoc(loc, face.x, 0, face.z));
+        rotate(direction);
+    }
+
+    public boolean isBlock(Instructions direction, int id){
+        if(id == -1) return (getLocInDir(direction).getBlock().getType() == Material.AIR ? false : true);
+        else return (getLocInDir(direction).getBlock().getTypeId() == id ? true : false);
+    }
+
+    public boolean isFull(){
+        return minedItems.keySet().size() > 128;
     }
 
     public void mine(Instructions direction){
@@ -110,8 +132,28 @@ public class MiningTurtle {
 
 //-----------------------------------------------
 
+    private Location getLocInDir(Instructions direction){
+        if(direction == Instructions.FORWARD){
+            //face
+            return moveLoc(chest.getBukkitEntity().getLocation(), face.x, 0, face.z);
+        } else if(direction == Instructions.BACKWARD){
+            //negative face
+            return moveLoc(chest.getBukkitEntity().getLocation(), -face.x, 0, -face.z);
+        } else if(direction == Instructions.LEFT){
+            //change values
+            return moveLoc(chest.getBukkitEntity().getLocation(), face.z, 0, face.x);
+        } else if(direction == Instructions.RIGHT){
+            //change values and negotiate
+            return moveLoc(chest.getBukkitEntity().getLocation(), -face.z, 0, -face.x);
+        } else if(direction == Instructions.UP){
+            return moveLoc(chest.getBukkitEntity().getLocation(), 0, 1, 0);
+        } else if(direction == Instructions.DOWN){
+            return moveLoc(chest.getBukkitEntity().getLocation(), 0, -1, 0);
+        }
+        return null;
+    }
+
     private Location normalize(Location loc){ //x y z, !yaw!, pitch
-        if (loc.getYaw() < 0) loc.setYaw((loc.getYaw()+180)*-1);
 
         return new Location(loc.getWorld(),
                 Math.floor(loc.getX()) + 0.5,
